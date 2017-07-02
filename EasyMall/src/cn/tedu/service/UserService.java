@@ -13,5 +13,18 @@ public interface UserService {
 	 */
 	public boolean isExist(String username);
 	
-	public void regist(User user)throws MsgException;
+	/**注册用户的方法
+	* @param user：封装了用户信息的User类的对象
+	* 抛出了Exception异常而不是MsgException也可行，为什么？
+	*/
+	public void regist(User user) throws Exception;
+	
+	
+	/**登录方法
+	* @param username:用户名
+	* @param pwd：密码
+	* @return 成功返回User对象，失败返回null
+	*/
+	public User login(String username, String pwd);
+	
 }

@@ -7,31 +7,31 @@
   <display-name></display-name>
   <servlet>
     <servlet-name>RegistServlet</servlet-name>
-    <servlet-class>cn.alibaba.RegistServlet</servlet-class>
+    <servlet-class>cn.tedu.web.RegistServlet</servlet-class>
   </servlet>
   <servlet>
     <description>This is the description of my J2EE component</description>
     <display-name>This is the display name of my J2EE component</display-name>
     <servlet-name>VerifyCodeServlet</servlet-name>
-    <servlet-class>cn.alibaba.VerifyCodeServlet</servlet-class>
+    <servlet-class>cn.tedu.web.VerifyCodeServlet</servlet-class>
   </servlet>
   <servlet>
     <description>This is the description of my J2EE component</description>
     <display-name>This is the display name of my J2EE component</display-name>
     <servlet-name>CheckUserNameServlet</servlet-name>
-    <servlet-class>cn.alibaba.CheckUserNameServlet</servlet-class>
+    <servlet-class>cn.tedu.web.CheckUserNameServlet</servlet-class>
   </servlet>
   <servlet>
     <description>This is the description of my J2EE component</description>
     <display-name>This is the display name of my J2EE component</display-name>
     <servlet-name>LoginServlet</servlet-name>
-    <servlet-class>cn.alibaba.LoginServlet</servlet-class>
+    <servlet-class>cn.tedu.web.LoginServlet</servlet-class>
   </servlet>
   <servlet>
     <description>This is the description of my J2EE component</description>
     <display-name>This is the display name of my J2EE component</display-name>
     <servlet-name>LogoutServlet</servlet-name>
-    <servlet-class>cn.alibaba.LogoutServlet</servlet-class>
+    <servlet-class>cn.tedu.web.LogoutServlet</servlet-class>
   </servlet>
 
 

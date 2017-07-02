@@ -11,6 +11,7 @@
 		var uname = "${cookie.remname.value}";
 		//alert(uname);
 		$("#username").val(deCode(uname));
+		alert("${pageContext.request.contextPath }/");
 	});
 
 </script>
@@ -31,7 +32,7 @@
 			}
 		}
 	 %>
-	<form action="/LoginServlet" method="POST">
+	<form action="${pageContext.request.contextPath }/LoginServlet" method="POST"><%-- ${pageContext.request.contextPath }/LoginServlet --%>
 		<table>
 
 			<tr>

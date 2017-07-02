@@ -37,9 +37,24 @@ public class CheckUserNameServlet extends HttpServlet {
 			throws ServletException, IOException {
 		//System.out.println("post");
 		resp.setContentType("html/text;charset=utf-8");
-		//1
-		String username =req.getParameter("username");
 		
+		//1接收参数
+		String username =req.getParameter("username");//1、接收参数
+		//2、判断用户名在数据库中是否存在
+		
+		try {
+			
+		UserService userService = new UserServiceImpl(); 
+		resp.getWriter().write(userService.isExist(username)+"");
+		
+		} catch (Exception e) {
+		e.printStackTrace();
+		//response.getWriter().write("系统错误,请重试!");
+		resp.getWriter().write("error");
+		}
+	}
+
+}		
 	/*	Connection conn=null;
 		PreparedStatement pstat = null;
 		ResultSet rs = null;*/
@@ -51,10 +66,10 @@ public class CheckUserNameServlet extends HttpServlet {
 			pstat.setString(1, username);
 			rs = pstat.executeQuery();*/
 		//UserDao ub =BasicFactory.getFactory.getInstance(UserDao.class);
-		UserService userService = new UserServiceImpl();
+		//UserService userService = new UserServiceImpl();
 		
 		//UserDao userDao = new UserDaoImpl();
-			if(userService.isExist(username)){
+	/*		if(userService.isExist(username)){
 				//System.out.println(rs.getString(2));
 				//resp.getWriter().write("用户名已存在！！");
 				resp.getWriter().write("true");
@@ -62,7 +77,7 @@ public class CheckUserNameServlet extends HttpServlet {
 				//resp.getWriter().write("<font color='red'>用户名可用！！</font>");
 				resp.getWriter().write("false");
 				
-			}
+			}*/
 			
 		/*} catch (SQLException e) {
 			e.printStackTrace();
@@ -72,6 +87,4 @@ public class CheckUserNameServlet extends HttpServlet {
 			JDBCUtils.close(conn, pstat, rs);
 		}*/
 		
-	}
 
-}

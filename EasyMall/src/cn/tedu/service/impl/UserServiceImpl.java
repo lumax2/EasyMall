@@ -10,6 +10,8 @@ import cn.tedu.service.UserService;
 public class UserServiceImpl implements UserService{
 	
 	
+	
+	
 	private  UserDao userDao = BasicFactory.getInstance(UserDao.class);
 	/**
 	 * 登陆办法
@@ -20,22 +22,28 @@ public class UserServiceImpl implements UserService{
 		return user;
 	}
 	
+	
 	public boolean isExist(String username) {
 		User user = userDao.findByUserName(username);
 		return user != null;
 	}
-
-	public void regist(User user) throws MsgException {
-		
-			
+	
+	
+	public User login(String username, String pwd) {
+		return userDao.findByUnamePwd(username,pwd);
+	}
+	
+	
+	
+	public void regist(User user) throws Exception {
 		//判断用户名是否可用
-		User result=userDao.findByUserName(user.getUsername());
-		if(result !=null){
-			throw new MsgException("用户名已存在");
+		User result = userDao.findByUserName(user.getUsername());
+		if(result!=null){
+		throw new MsgException("用户名已存在!（fw）");
 		}
-		//
+		//用户不存在
 		userDao.addUser(user);
-			
 		}
+		
 
 }

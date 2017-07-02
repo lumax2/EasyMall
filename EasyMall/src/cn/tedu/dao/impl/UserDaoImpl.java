@@ -11,9 +11,42 @@ import cn.tedu.entity.User;
 import utils.JDBCUtils;
 
 public class UserDaoImpl implements UserDao{
-	Connection conn = null;
-	PreparedStatement pstat = null;
-	ResultSet rs = null;
+	
+	
+	private Connection conn = null;
+	private PreparedStatement pstat=null;
+	private ResultSet rs = null;
+	
+	public User findByUnamePwd(String username, String pwd) {
+		try {
+			conn = JDBCUtils.getConnection();
+			String sql = "select * from users where username = ?" +
+			" and password=?";
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, username);
+			pstat.setString(2, pwd);
+			rs = pstat.executeQuery();
+			if(rs.next()){
+			User user = new User();
+			user.setId(rs.getInt("id"));
+			user.setUsername(rs.getString("username"));
+			user.setPassword(rs.getString("password"));
+			user.setNickname(rs.getString("nickname"));
+			user.setEmail(rs.getString("email"));
+			return user;
+			}
+			} catch (Exception e) {
+			e.printStackTrace();
+			}finally{
+			JDBCUtils.close(conn, pstat, rs);
+			}
+			return null;
+			}
+	
+	
+	
+
+	
 	
 
 	public int regist(User user) {
@@ -52,7 +85,7 @@ public class UserDaoImpl implements UserDao{
 	
 	}
 
-	public User findByUserName(String username) {		
+	/*public User findByUserName(String username) {		
 		try {
 			conn =JDBCUtils.getConnection();
 			String sql = "select * from users where username=?";
@@ -79,27 +112,53 @@ public class UserDaoImpl implements UserDao{
 		return null;	
 		
 	}
-
+*/
 	public int addUser(User user) {
 		
-			try {
-				conn = JDBCUtils.getConnection();
-				String sql2 = "insert into users (username,password,nickname,email) values(?,?,?,?)";
-				pstat = conn.prepareStatement(sql2);
+		try {
+			conn = JDBCUtils.getConnection();
+			String sql = "insert into users(username,password," +
+			"nickname,email) values(?,?,?,?)";
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, user.getUsername());
+			pstat.setString(2, user.getPassword());
+			pstat.setString(3, user.getNickname());
+			pstat.setString(4,user.getEmail());
+			return pstat.executeUpdate();
+			} catch (Exception e) {
+			e.printStackTrace();
+			}
+			return 0;
+	}
 
-				pstat.setString(1, user.getUsername());
-				pstat.setString(2, user.getPassword());
-				pstat.setString(3, user.getNickname());
-				pstat.setString(4, user.getEmail());
-
-				int row = pstat.executeUpdate();
-				return row;
-			} catch (SQLException e) {
-				e.printStackTrace();
+	/**
+	 * 根据用户名查找用户
+	 * @param username
+	 * @return
+	 */
+	public User findByUserName(String username) {
+		try {
+			conn = JDBCUtils.getConnection();
+			String sql = "select * from users where username = ?";
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, username);
+			rs = pstat.executeQuery();
+			if(rs.next()){
+			User user = new User();
+			user.setId(rs.getInt("id"));
+			user.setUsername(rs.getString("username"));
+			user.setPassword(rs.getString("password"));
+			user.setNickname(rs.getString("nickname"));
+			user.setEmail(rs.getString("email"));
+			return user;
+			}
+			} catch (Exception e) {
+			e.printStackTrace();
 			}finally{
 				JDBCUtils.close(conn, pstat, rs);
 			}
-			return 0;
-			
+			return null;
 	}
+
+	
 }

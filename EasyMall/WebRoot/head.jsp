@@ -8,14 +8,14 @@
 <div id="common_head">
 	<div id="line1">
 		<div id="content">
-			<c:if test="${!empty sessionScope.username }" var="emptyResult">
+			<c:if test="${!empty sessionScope.username }" var="emptyResult" scope="page">
 				欢迎：${sessionScope.username }
 				<a href="${pageContext.request.contextPath }/LogoutServlet">注销</a>
 			</c:if>
 
 			<c:if test="${!emptyResult }">
-				<a href="${pageContext.request.contextPath }/login.jsp">登录</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a
-					href="regist.jsp">注册</a>
+				<a href="${pageContext.request.contextPath }/login.jsp">登录</a>&nbsp;&nbsp;
+				|&nbsp;&nbsp;<a href="${pageContext.request.contextPath }/regist.jsp">注册</a>
 			</c:if>
 			<%-- <%
 		Object obj=session.getAttribute("username");

@@ -1,7 +1,6 @@
 package cn.tedu.web;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,14 +11,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.junit.Test;
 
-import com.sun.org.apache.commons.beanutils.BeanUtils;
 
-import cn.tedu.dao.UserDao;
 import cn.tedu.entity.User;
 import cn.tedu.exception.MsgException;
-import cn.tedu.factory.BasicFactory;
 import cn.tedu.service.UserService;
 import cn.tedu.service.impl.UserServiceImpl;
 
@@ -45,7 +42,6 @@ public class RegistServlet extends HttpServlet {
 				System.out.println(rs.getString("nickname"));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally{
 			JDBCUtils.close(conn, pstat, rs);
@@ -62,8 +58,64 @@ public class RegistServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		
+		//1、设置接收参数的字符集编码格式
+		req.setCharacterEncoding("utf-8");
+		//A1.从session中获取令牌
+		Object tk1Obj = req.getSession().getAttribute("token");
+		//A2、从隐藏域中接收token
+		String tk2 = req.getParameter("token");
+		//A3、比较
+		if(tk2==null||tk1Obj==null||!tk2.equals((String)tk1Obj)){
+		//重复提交
+		throw new RuntimeException("请不要重复提交(fw)");
+		}else{//第一次提交
+		//从session中删除令牌
+		req.getSession().removeAttribute("token");
+		}
+		//2、接收参数
+		String valistr=req.getParameter("valistr");
+		//valistr的判断
+		//B1.从session中获取验证码
+		Object codeObj = req.getSession().getAttribute("code");
+		//B2.判断输入框中的验证码是否为空
+		if(WebUtils.check(valistr)){
+		req.setAttribute("valistr_msg","验证码不能为空(fw)");
+		req.getRequestDispatcher("/regist.jsp").forward(req, resp);
+		return;
+		}
+		//B3、验证两个是否相同
+		if(!(codeObj!=null&&valistr.equals((String)codeObj))){
+		req.setAttribute("valistr_msg", "验证码输入错误(fw)");
+		req.getRequestDispatcher("/regist.jsp").forward(req, resp);
+		return;
+		}
+		try {
+		//C1、创建User对象
+		User user = new User();
+		//C2、将form表单的信息封装到user中
+		BeanUtils.populate(user, req.getParameterMap());
+		//C3、调用数据验证的方法
+		user.check();
+		//C4、创建业务层对象
+		UserService userService = new UserServiceImpl();
+		//C5、调用注册的方法
+		userService.regist(user);
+		//注册成功
+		resp.sendRedirect(req.getContextPath()+"/index.jsp");
+		}catch(MsgException me){
+		req.setAttribute("msg", me.getMessage());
+		req.getRequestDispatcher("/regist.jsp").forward(req, resp);
+		} catch (Exception e) {
+		e.printStackTrace();
+		req.setAttribute("msg", "系统错误");
+		req.getRequestDispatcher("/regist.jsp").forward(req, resp);
+		}
 
-		// 1设置接受参数的字符集编码格式 令牌
+	}
+}
+		
+		/*// 1设置接受参数的字符集编码格式 令牌
 		req.setCharacterEncoding("utf-8");
 
 			//避免表单重复提交2
@@ -91,8 +143,8 @@ public class RegistServlet extends HttpServlet {
 		//2判断验证码是否为空
 		if (WebUtils.check(valistr)) {
 			req.setAttribute("valistr_msg", "验证码不能为空");
-			/*req.getRequestDispatcher("/regist.jsp").forward(req, resp);
-			return;*/
+			req.getRequestDispatcher("/regist.jsp").forward(req, resp);
+			return;
 		}
 		//3验证不相同
 		User user= new User();
@@ -107,7 +159,6 @@ public class RegistServlet extends HttpServlet {
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
 		} catch (MsgException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -137,7 +188,7 @@ public class RegistServlet extends HttpServlet {
 
 		}
 	}
-
+*/
 
 
 /*		//1、设置接收参数的字符集编码格式
