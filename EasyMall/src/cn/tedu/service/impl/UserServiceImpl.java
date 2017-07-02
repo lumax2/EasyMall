@@ -1,7 +1,6 @@
 package cn.tedu.service.impl;
 
 import cn.tedu.dao.UserDao;
-import cn.tedu.dao.impl.UserDaoImpl;
 import cn.tedu.entity.User;
 import cn.tedu.exception.MsgException;
 import cn.tedu.factory.BasicFactory;
