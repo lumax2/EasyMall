@@ -8,12 +8,12 @@
 <div id="common_head">
 	<div id="line1">
 		<div id="content">
-			<c:if test="${!empty sessionScope.username }" var="emptyResult" scope="page">
-				欢迎：${sessionScope.username }
+			<c:if test="${!empty sessionScope.user}" var="emptyResult" scope="page">
+				欢迎：${sessionScope.user.username}
 				<a href="${pageContext.request.contextPath }/LogoutServlet">注销</a>
 			</c:if>
 
-			<c:if test="${!emptyResult }">
+			<c:if test="${!emptyResult}">
 				<a href="${pageContext.request.contextPath }/login.jsp">登录</a>&nbsp;&nbsp;
 				|&nbsp;&nbsp;<a href="${pageContext.request.contextPath }/regist.jsp">注册</a>
 			</c:if>

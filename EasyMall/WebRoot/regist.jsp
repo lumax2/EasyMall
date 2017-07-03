@@ -18,24 +18,24 @@ $(function()
 		$("input[name=username]").blur(
 				function() {
 					var val = $(this).val();
-					if (!formObj.checkNull("username", "用户名不能 为空！！")) {
-						setMsg("username", "用户名不能 为空！！");
+					if (!formObj.checkNull("username", "用户名不能 为空js")) {
+						setMsg("username", "用户名不能 为空js");
 					} else {
 						//方式1：load
 						/* $("#username_msg").load("/CheckUserNameServlet",{username:val},function(result){
 							$("#username_msg").text(result);
 						}); */
-						//方式2：
+						//方式2：ajax
 						$.post("/CheckUserNameServlet", {"username": val},
 							function(result) {
 							//$("#username_msg").html(result);
 							if ("true" == result) {
-								$("#username_msg").html("用户名已经存在！!");
+								$("#username_msg").html("用户名已经存在js");
 							} else if ("false" == result) {
 								$("#username_msg").html(
-										"<font color ='green'>用户名可用</font>");
+										"<font color ='green'>用户名可用JS</font>");
 							} else if ("error" == result) {
-								$("#username_msg").html("系统错误，请重试！!");
+								$("#username_msg").html("系统错误，请重试JS");
 							}
 						});
 					}
@@ -48,17 +48,17 @@ $(function()
 			var flag = true;
 			
 			
-			flag = this.checkNull("username", "用户名不能为空!");
+			flag = this.checkNull("username", "用户名不能为空!js");
 			//alert("flag1:"+flag);
-			flag = this.checkNull("password", "密码不能为空!") && flag;
-			flag = this.checkNull("password2", "确认密码不能为空!") && flag;
-			flag = this.checkNull("nickname", "昵称不能为空!") && flag;
-			flag = this.checkNull("email", "邮箱不能为空!") && flag;
-			flag = this.checkNull("valistr", "验证码不能为空!") && flag;
+			flag = this.checkNull("password", "密码不能为空!js") && flag;
+			flag = this.checkNull("password2", "确认密码不能为空!js") && flag;
+			flag = this.checkNull("nickname", "昵称不能为空!js") && flag;
+			flag = this.checkNull("email", "邮箱不能为空!js") && flag;
+			flag = this.checkNull("valistr", "验证码不能为空!js") && flag;
 			//alert("flag1:"+flag);
-			flag = this.checkPassword("password", "两次密码不一致!") && flag;
+			flag = this.checkPassword("password", "两次密码不一致!js") && flag;
 			//alert("flag2:"+flag);
-			flag =	this.checkEmail("email", "邮箱格式不正确!") && flag;
+			flag =	this.checkEmail("email", "邮箱格式不正确!js") && flag;
 
 			return flag;
 		},

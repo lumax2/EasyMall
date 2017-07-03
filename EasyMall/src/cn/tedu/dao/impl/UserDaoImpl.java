@@ -5,6 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanHandler;
+
 import cn.tedu.dao.UserDao;
 import cn.tedu.entity.User;
 
@@ -19,6 +22,18 @@ public class UserDaoImpl implements UserDao{
 	
 	public User findByUnamePwd(String username, String pwd) {
 		try {
+		String sql = "select * from users where username = ?" +
+		" and password=?";
+		QueryRunner qr = new QueryRunner(JDBCUtils.getPool());
+		return qr.query(sql, new BeanHandler<User>(User.class), username,pwd);
+		} catch (Exception e) {
+		e.printStackTrace();
+		}
+		return null;
+		
+	}
+	//未使用DBUtils
+		/*try {
 			conn = JDBCUtils.getConnection();
 			String sql = "select * from users where username = ?" +
 			" and password=?";
@@ -42,7 +57,7 @@ public class UserDaoImpl implements UserDao{
 			}
 			return null;
 			}
-	
+	*/
 	
 	
 
@@ -50,7 +65,6 @@ public class UserDaoImpl implements UserDao{
 	
 
 	public int regist(User user) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
@@ -85,37 +99,21 @@ public class UserDaoImpl implements UserDao{
 	
 	}
 
-	/*public User findByUserName(String username) {		
-		try {
-			conn =JDBCUtils.getConnection();
-			String sql = "select * from users where username=?";
-			pstat=conn.prepareStatement(sql);
-			pstat.setString(1, username);
-			rs = pstat.executeQuery();
-			
-			if(rs.next()){
-				System.out.println("findByUserName:rs.next():"+rs.next());
-				User user = new User();
-				user.setId(rs.getInt("id"));
-				user.setUsername(rs.getString("username"));
-				user.setPassword(rs.getString("password"));
-				user.setNickname(rs.getString("nickname"));
-				user.setEmail(rs.getString("email"));
-				return user;
-			}
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}finally{
-			JDBCUtils.close(conn, pstat, rs);
-		}
-		return null;	
-		
-	}
-*/
+	
 	public int addUser(User user) {
-		
 		try {
+			String sql = "insert into users(username,password," +
+			"nickname,email) values(?,?,?,?)";
+			QueryRunner qr = new QueryRunner(JDBCUtils.getPool());
+			return qr.update(sql, user.getUsername(),user.getPassword(),
+			user.getNickname(),user.getEmail());
+			} catch (Exception e) {
+			e.printStackTrace();
+			}
+			return 0;
+		
+		//未用DBUtils
+		/*try {
 			conn = JDBCUtils.getConnection();
 			String sql = "insert into users(username,password," +
 			"nickname,email) values(?,?,?,?)";
@@ -128,7 +126,7 @@ public class UserDaoImpl implements UserDao{
 			} catch (Exception e) {
 			e.printStackTrace();
 			}
-			return 0;
+			return 0;*/
 	}
 
 	/**
@@ -138,6 +136,19 @@ public class UserDaoImpl implements UserDao{
 	 */
 	public User findByUserName(String username) {
 		try {
+			String sql = "select * from users where username = ?";
+			QueryRunner qr = new QueryRunner(JDBCUtils.getPool());
+			return qr.query(sql, 
+			new BeanHandler<User>(User.class),username);
+			} catch (Exception e) {
+			e.printStackTrace();
+			}
+			return null;
+	}
+}
+		
+		//未用DBUtil
+		/*try {
 			conn = JDBCUtils.getConnection();
 			String sql = "select * from users where username = ?";
 			pstat = conn.prepareStatement(sql);
@@ -157,8 +168,5 @@ public class UserDaoImpl implements UserDao{
 			}finally{
 				JDBCUtils.close(conn, pstat, rs);
 			}
-			return null;
-	}
+			return null;*/
 
-	
-}

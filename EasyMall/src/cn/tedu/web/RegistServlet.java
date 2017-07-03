@@ -62,6 +62,7 @@ public class RegistServlet extends HttpServlet {
 		
 		//1、设置接收参数的字符集编码格式
 		req.setCharacterEncoding("utf-8");
+		resp.setContentType("text/html:charset=utf-8");
 		//A1.从session中获取令牌
 		Object tk1Obj = req.getSession().getAttribute("token");
 		//A2、从隐藏域中接收token
@@ -74,6 +75,7 @@ public class RegistServlet extends HttpServlet {
 		//从session中删除令牌
 		req.getSession().removeAttribute("token");
 		}
+		
 		//2、接收参数
 		String valistr=req.getParameter("valistr");
 		//valistr的判断
@@ -81,12 +83,12 @@ public class RegistServlet extends HttpServlet {
 		Object codeObj = req.getSession().getAttribute("code");
 		//B2.判断输入框中的验证码是否为空
 		if(WebUtils.check(valistr)){
-		req.setAttribute("valistr_msg","验证码不能为空(fw)");
-		req.getRequestDispatcher("/regist.jsp").forward(req, resp);
-		return;
+			req.setAttribute("valistr_msg","验证码不能为空(fw)");
+			req.getRequestDispatcher("/regist.jsp").forward(req, resp);
+			return;
 		}
 		//B3、验证两个是否相同
-		if(!(codeObj!=null&&valistr.equals((String)codeObj))){
+		if(!(codeObj!=null&&valistr.equalsIgnoreCase((String)codeObj))){
 		req.setAttribute("valistr_msg", "验证码输入错误(fw)");
 		req.getRequestDispatcher("/regist.jsp").forward(req, resp);
 		return;
@@ -104,13 +106,19 @@ public class RegistServlet extends HttpServlet {
 		//C5、调用注册的方法
 		userService.regist(user);
 		//注册成功
-		resp.sendRedirect(req.getContextPath()+"/index.jsp");
+		resp.setCharacterEncoding("utf-8");
+		resp.setHeader("refresh", "33;url=" + req.getContextPath()
+				+ "/index.jsp");
+		System.out.println("req.getContextPath():"+req.getContextPath());
+		resp.getWriter().print(
+				"注册成功，3秒后自动跳转，如没有跳转，<a href='" + req.getContextPath()
+						+ "/index.jsp'>请点这里</a>");
 		}catch(MsgException me){
 		req.setAttribute("msg", me.getMessage());
 		req.getRequestDispatcher("/regist.jsp").forward(req, resp);
 		} catch (Exception e) {
 		e.printStackTrace();
-		req.setAttribute("msg", "系统错误");
+		req.setAttribute("msg", "系统错误fw");
 		req.getRequestDispatcher("/regist.jsp").forward(req, resp);
 		}
 

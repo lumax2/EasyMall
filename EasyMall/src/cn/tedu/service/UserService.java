@@ -1,7 +1,6 @@
 package cn.tedu.service;
 
 import cn.tedu.entity.User;
-import cn.tedu.exception.MsgException;
 
 public interface UserService {
 

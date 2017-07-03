@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import cn.tedu.entity.User;
+import cn.tedu.factory.BasicFactory;
 import cn.tedu.service.UserService;
 import cn.tedu.service.impl.UserServiceImpl;
 
@@ -44,11 +45,11 @@ public class LoginServlet extends HttpServlet {
 		//3、非空验证
 		boolean isTrue=true;
 		if(WebUtils.check(username)){
-		req.setAttribute("username_msg", "用户名不能为空");
+		req.setAttribute("username_msg", "用户名不能为空fw");
 		isTrue = false;
 		}
 		if(WebUtils.check(password)){
-		req.setAttribute("password_msg", "密码不能为空");
+		req.setAttribute("password_msg", "密码不能为空fw");
 		isTrue = false;
 		}
 		if(!isTrue){
@@ -59,26 +60,26 @@ public class LoginServlet extends HttpServlet {
 		
 		try {
 			//A1.创建业务层对象
-			UserService userService = new UserServiceImpl();
+			UserService userService = BasicFactory.getInstance(UserService.class);
 			//A2.在对应的包下创建业务层的接口和实现类
 			//A3.调用业务层的方法
 			User user = userService.loginService(username,password);
 			//A4.创建User，添加login(..)方法
 			//5判断用户是否存在
 			if(user!=null){
-			//7存在,将用户名保存到session中
-			if("true".equals(req.getParameter("remname"))){
-			Cookie cookie = new Cookie("remname",URLEncoder.encode(username, "utf-8"));
-			cookie.setPath("/");
-			cookie.setMaxAge(3600*24*30);
-			resp.addCookie(cookie);
-			}
-			req.getSession().setAttribute("user", user);
-			resp.sendRedirect(req.getContextPath()+"/index.jsp");
+				//7存在,将用户名保存到session中
+				if("true".equals(req.getParameter("remname"))){
+				Cookie cookie = new Cookie("remname",URLEncoder.encode(username, "utf-8"));
+				cookie.setPath("/");
+				cookie.setMaxAge(3600*24*30);
+				resp.addCookie(cookie);
+				}
+				req.getSession().setAttribute("user", user);
+				resp.sendRedirect(req.getContextPath()+"/index.jsp");
 			}else{
-			//6不存在，给予提示跳转到login.jsp
-			req.setAttribute("msg", "用户名或密码错误");
-			req.getRequestDispatcher("/login.jsp").forward(req, resp);
+				//6不存在，给予提示跳转到login.jsp
+				req.setAttribute("msg", "用户名或密码错误");
+				req.getRequestDispatcher("/login.jsp").forward(req, resp);
 			}
 			} catch (Exception e) {
 			e.printStackTrace();

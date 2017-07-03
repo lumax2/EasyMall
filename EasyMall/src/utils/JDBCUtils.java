@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.sql.DataSource;
+
 
 import org.junit.Test;
 
@@ -37,9 +39,9 @@ public class JDBCUtils {
 	/*
 	 * 获取连接池实例
 	 */
-	/*private static DataSource getPool(){
+	public static DataSource getPool(){
 		return pool;
-	}*/
+	}
 	
 	/*
 	 * 从连接池中获取一个连接
