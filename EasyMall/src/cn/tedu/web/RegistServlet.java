@@ -99,7 +99,7 @@ public class RegistServlet extends HttpServlet {
 		//C3、调用数据验证的方法
 		user.check();
 		//C4、创建业务层对象
-		UserService userService = BasicFactory.getInstance(UserService.class);
+		UserService userService = BasicFactory.getFactory().getInstance(UserService.class);
 	/*	UserService userService = new UserServiceImpl();*/
 		//C5、调用注册的方法
 		userService.regist(user);

@@ -11,7 +11,7 @@ public class BasicFactory {
 			return factory;
 		}
 		@SuppressWarnings("unchecked")
-		public static <T>T getInstance(Class<T> intfClz){
+		public <T>T getInstance(Class<T> intfClz){
 			String intfName=intfClz.getSimpleName(); 
 			String className = PropUtils.getProperty(intfName);
 			try {

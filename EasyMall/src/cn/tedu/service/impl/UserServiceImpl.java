@@ -11,7 +11,7 @@ public class UserServiceImpl implements UserService{
 	
 	
 	
-	private  UserDao userDao = BasicFactory.getInstance(UserDao.class);
+	private  UserDao userDao = BasicFactory.getFactory().getInstance(UserDao.class);
 	/**
 	 * µÇÂ½°ì·¨
 	 */
