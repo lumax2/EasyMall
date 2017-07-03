@@ -5,12 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.apache.commons.dbutils.QueryRunner;
-import org.apache.commons.dbutils.handlers.BeanHandler;
 
 import cn.tedu.dao.UserDao;
 import cn.tedu.entity.User;
 
+import utils.BeanHandler;
 import utils.JDBCUtils;
 
 public class UserDaoImpl implements UserDao{
@@ -22,6 +21,16 @@ public class UserDaoImpl implements UserDao{
 	
 	public User findByUnamePwd(String username, String pwd) {
 		try {
+			String sql = "select * from users where username = ?" +
+					" and password=?";
+			return JDBCUtils.query(sql, new BeanHandler<User>(User.class), username,pwd);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+		
+		/*try {
 		String sql = "select * from users where username = ?" +
 		" and password=?";
 		QueryRunner qr = new QueryRunner(JDBCUtils.getPool());
@@ -29,9 +38,9 @@ public class UserDaoImpl implements UserDao{
 		} catch (Exception e) {
 		e.printStackTrace();
 		}
-		return null;
+		return null;*/
 		
-	}
+	
 	//未使用DBUtils
 		/*try {
 			conn = JDBCUtils.getConnection();
@@ -69,6 +78,10 @@ public class UserDaoImpl implements UserDao{
 	}
 
 	public User login(String username, String password) {
+	
+			
+		
+		
 		try {
 			conn = JDBCUtils.getConnection();
 			String sql = "select * from users where username=? and password=?";
@@ -101,7 +114,20 @@ public class UserDaoImpl implements UserDao{
 
 	
 	public int addUser(User user) {
-		try {
+		
+			try {
+			String sql = "insert into users(username,password," +
+			"nickname,email) values(?,?,?,?)";
+			return JDBCUtils.update(sql, user.getUsername(),
+			user.getPassword(),user.getNickname(),user.getEmail());
+			} catch (Exception e) {
+			e.printStackTrace();
+			}
+			return 0;
+			
+		
+		//使用apachejar包方法
+	/*	try {
 			String sql = "insert into users(username,password," +
 			"nickname,email) values(?,?,?,?)";
 			QueryRunner qr = new QueryRunner(JDBCUtils.getPool());
@@ -110,7 +136,7 @@ public class UserDaoImpl implements UserDao{
 			} catch (Exception e) {
 			e.printStackTrace();
 			}
-			return 0;
+			return 0;*/
 		
 		//未用DBUtils
 		/*try {
@@ -137,6 +163,15 @@ public class UserDaoImpl implements UserDao{
 	public User findByUserName(String username) {
 		try {
 			String sql = "select * from users where username = ?";
+			return JDBCUtils.query(sql, 
+					new BeanHandler<User>(User.class),username);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+		//apache dbutil
+		/*try {
+			String sql = "select * from users where username = ?";
 			QueryRunner qr = new QueryRunner(JDBCUtils.getPool());
 			return qr.query(sql, 
 			new BeanHandler<User>(User.class),username);
@@ -144,6 +179,8 @@ public class UserDaoImpl implements UserDao{
 			e.printStackTrace();
 			}
 			return null;
+	}*/
+
 	}
 }
 		
