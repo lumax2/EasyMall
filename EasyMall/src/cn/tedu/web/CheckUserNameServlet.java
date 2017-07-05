@@ -1,23 +1,15 @@
 package cn.tedu.web;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import cn.tedu.dao.UserDao;
-import cn.tedu.dao.impl.UserDaoImpl;
 import cn.tedu.factory.BasicFactory;
 import cn.tedu.service.UserService;
-import cn.tedu.service.impl.UserServiceImpl;
 
-import utils.JDBCUtils;
 
 public class CheckUserNameServlet extends HttpServlet {
 
@@ -43,7 +35,7 @@ public class CheckUserNameServlet extends HttpServlet {
 		// 2、判断用户名在数据库中是否存在
 
 		try {
-			UserService userService = BasicFactory.getInstance(
+			UserService userService = BasicFactory.getFactory().getInstance(
 					UserService.class);
 			
 			resp.getWriter().write(userService.isExist(username) + "");

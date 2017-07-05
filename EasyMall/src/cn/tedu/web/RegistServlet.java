@@ -1,34 +1,26 @@
 package cn.tedu.web;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.junit.Test;
 
 
 import cn.tedu.entity.User;
 import cn.tedu.exception.MsgException;
 import cn.tedu.factory.BasicFactory;
 import cn.tedu.service.UserService;
-import cn.tedu.service.impl.UserServiceImpl;
 
-import utils.JDBCUtils;
 import utils.WebUtils;
 
 public class RegistServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	@Test
+	/*@Test
 	public void test(){
 		 Connection conn = null;
 		 PreparedStatement pstat = null;
@@ -49,7 +41,7 @@ public class RegistServlet extends HttpServlet {
 		}
 		
 	}
-	
+	*/
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -61,8 +53,8 @@ public class RegistServlet extends HttpServlet {
 			throws ServletException, IOException {
 		
 		//1、设置接收参数的字符集编码格式
-		req.setCharacterEncoding("utf-8");
-		resp.setContentType("text/html:charset=utf-8");
+		//req.setCharacterEncoding("utf-8");
+		//resp.setContentType("text/html:charset=utf-8");
 		//A1.从session中获取令牌
 		Object tk1Obj = req.getSession().getAttribute("token");
 		//A2、从隐藏域中接收token
@@ -101,13 +93,13 @@ public class RegistServlet extends HttpServlet {
 		//C3、调用数据验证的方法
 		user.check();
 		//C4、创建业务层对象
-		UserService userService = BasicFactory.getInstance(UserService.class);
+		UserService userService = BasicFactory.getFactory().getInstance(UserService.class);
 	/*	UserService userService = new UserServiceImpl();*/
 		//C5、调用注册的方法
 		userService.regist(user);
 		//注册成功
 		resp.setCharacterEncoding("utf-8");
-		resp.setHeader("refresh", "33;url=" + req.getContextPath()
+		resp.setHeader("refresh", "3;url=" + req.getContextPath()
 				+ "/index.jsp");
 		System.out.println("req.getContextPath():"+req.getContextPath());
 		resp.getWriter().print(

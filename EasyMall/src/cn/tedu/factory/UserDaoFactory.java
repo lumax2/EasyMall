@@ -17,7 +17,7 @@ public class UserDaoFactory {
 		// 读取配置文件，获取包名的类名
 		String className = PropUtils.getProperty("UserDao");
 		try {
-			Class clz = Class.forName(className);
+			Class<?> clz = Class.forName(className);
 			return (UserDao) clz.newInstance();
 		} catch (Exception e) {
 			e.printStackTrace();

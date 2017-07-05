@@ -4,7 +4,7 @@ import cn.tedu.entity.User;
 
 public interface UserService {
 
-	public User loginService(String username,String password);
+	
 	/**
 	 * 判断用户名是否存在
 	 * @param username

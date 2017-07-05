@@ -11,15 +11,8 @@ public class UserServiceImpl implements UserService{
 	
 	
 	
-	private  UserDao userDao = BasicFactory.getInstance(UserDao.class);
-	/**
-	 * µÇÂ½°ì·¨
-	 */
-	public User loginService(String username, String password) {
-		
-		User user =	userDao.login(username, password);
-		return user;
-	}
+	private  UserDao userDao = BasicFactory.getFactory().getInstance(UserDao.class);
+	
 	
 	
 	public boolean isExist(String username) {

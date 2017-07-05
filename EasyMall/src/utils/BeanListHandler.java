@@ -11,9 +11,9 @@ import java.util.List;
 
 
 public class BeanListHandler<T> implements ResultSetHandler<List<T>> {
-	private Class<T> type;
+	private Class type;
 
-	public BeanListHandler(Class<T> type) {
+	public BeanListHandler(Class type) {
 		this.type = type;
 	}
 	
@@ -22,7 +22,7 @@ public class BeanListHandler<T> implements ResultSetHandler<List<T>> {
 		if (rs != null) {
 			while (rs.next()) {
 				try {
-					T t = type.newInstance();
+					T t = (T)type.newInstance();
 					BeanInfo binfo = Introspector.getBeanInfo(type);
 					PropertyDescriptor[] pds = binfo.getPropertyDescriptors();
 					for (int i = 0; i < pds.length; i++) {

@@ -4,75 +4,41 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
 import javax.sql.DataSource;
 
-import org.junit.Test;
 
-import cn.tedu.entity.User;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 public class JDBCUtils {
 
+
 	public static ComboPooledDataSource pool = new ComboPooledDataSource();
 	
-	@Test
-	public void test1() {
-		String sql = "select * from users";
-		List<User> list;
-		try {
-			list = JDBCUtils.query(sql, new BeanListHandler<User>(User.class));
-			for (User user : list) {
-				System.out.println(user.getId() + "," + user.getUsername());
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
 	
-	@Test
-	public void test() {
-		Connection conn = null;
-		PreparedStatement pstat = null;
-		ResultSet rs = null;
-		try {
-			conn = JDBCUtils.getConnection();
-			String sql = "select * from users";
-			pstat = conn.prepareStatement(sql);
-			rs = pstat.executeQuery();
-			while (rs.next()) {
-				System.out.println(rs.getString("username"));
-				System.out.println(rs.getString("nickname"));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			JDBCUtils.close(conn, pstat, rs);
-		}
-
-	}
-
-	/*
-	 * 获取连接池实例
-	 */
-	public static DataSource getPool() {
+	
+		public static DataSource getPool() {
 		return pool;
 	}
 
-	/*
-	 * 从连接池中获取一个连接
-	 */
+	
+	
+	 
 	public static Connection getConnection() throws SQLException {
 
 		return pool.getConnection();
 
 	}
 
-	/*
-	 * 工具方法
+	
+	/** 工具方法
+	 * 
+	 * @param conn
+	 * @param pstat
+	 * @param rs
 	 */
+	 
 	public static void close(Connection conn, PreparedStatement pstat,
 			ResultSet rs) {
 		if (conn != null) {
@@ -148,42 +114,42 @@ public class JDBCUtils {
 	 * @return T或List<T>
 	 * @throws SQLException
 	 */
-	/**
-	 * 查询的方法，即可以查询一个对象，也可以查询List<T>
-	 * 
-	 * @param sql
-	 *            :sql语句
-	 * @param rsh
-	 *            ：如果返回当个对象 new BeanHandler<T>(Class<T>) 如果返回集合对象List<T>，使用new
-	 *            BeanListHandler<T>(Class<T>)
-	 * @param params
-	 *            :参数对象数组
-	 * @return T或List<T>
-	 * @throws SQLException
-	 */
-	public static <T> T query(String sql, ResultSetHandler<T> rsh,
-			Object... params) throws SQLException {
-		Connection conn = null;
-		PreparedStatement pstat = null;
-		ResultSet rs = null;
-		try {
-			conn = getConnection();
-			pstat = conn.prepareStatement(sql);
-			// 为占位符赋值
-			if (params != null) {
-				for (int i = 0; i < params.length; i++) {
-					pstat.setObject(i + 1, params[i]);
+
+		/**
+		 * 查询记录
+		 * @param sql
+		 * @param rsh
+		 * @param params
+		 * @return
+		 * @throws Exception
+		 */
+		public static <T> T query(String sql, ResultSetHandler<T> rsh, Object... params)
+				throws Exception {
+			
+			Connection conn = null;
+			PreparedStatement ps = null;
+			ResultSet rs = null;
+			try {
+				conn = getConnection();
+				ps = conn.prepareStatement(sql);
+				if(params != null && params.length >0){
+					for (int i = 0; i < params.length; i++) {
+						ps.setObject(i+1, params[i]);
+					}
 				}
+				
+				rs = ps.executeQuery();
+				/*while(rs.next()){
+					System.out.println("username111"+rs.getString("username"));
+					System.out.println("1111"+rs.getString(1));
+				}*/
+				//处理结果集
+				return rsh.handle(rs);
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}finally{
+				close(conn, ps, rs);
 			}
-			rs = pstat.executeQuery();
-			return rsh.handle(rs);
-		} catch (SQLException e) {
-			throw e;
-		} finally {
-			close(conn, pstat, rs);
-		}
-
 	}
-
-	
 }

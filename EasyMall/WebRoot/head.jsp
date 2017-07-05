@@ -40,7 +40,7 @@
 			<ul>
 				<li><a href="#">首页</a>
 				</li>
-				<li><a href="#">全部商品</a>
+				<li><a href="${app }/ProdListServlet">全部商品</a>
 				</li>
 				<li><a href="#">手机数码</a>
 				</li>
