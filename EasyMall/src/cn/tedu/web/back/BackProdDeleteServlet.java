@@ -1,7 +1,6 @@
 package cn.tedu.web.back;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -12,6 +11,11 @@ import cn.tedu.factory.BasicFactory;
 import cn.tedu.service.ProdService;
 
 public class BackProdDeleteServlet extends HttpServlet {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)

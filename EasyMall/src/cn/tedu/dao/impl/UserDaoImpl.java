@@ -11,8 +11,8 @@ public class UserDaoImpl implements UserDao {
 
 	public User findByUnamePwd(String username, String pwd) {
 		try {
-			String sql = "select * from users where username=? and password = ? ";
-			//System.out.println("username:"+username+"  pwd:"+pwd);
+			String sql = "select * from users where username=? and password =? ";
+			System.out.println("username:"+username+"  pwd:"+pwd);
 			
 			//System.out.println("11111111111111:"+JDBCUtils.query(sql, new BeanHandler<User>(User.class), username,pwd));
 			return JDBCUtils.query(sql, new BeanHandler<User>(User.class),username,pwd);

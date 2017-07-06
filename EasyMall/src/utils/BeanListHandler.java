@@ -11,9 +11,9 @@ import java.util.List;
 
 
 public class BeanListHandler<T> implements ResultSetHandler<List<T>> {
-	private Class type;
+	private Class<T> type;
 
-	public BeanListHandler(Class type) {
+	public BeanListHandler(Class<T> type) {
 		this.type = type;
 	}
 	

@@ -139,9 +139,10 @@ public class JDBCUtils {
 				}
 				
 				rs = ps.executeQuery();
+				//System.out.println("RS:"+rs);
 				/*while(rs.next()){
 					System.out.println("username111"+rs.getString("username"));
-					System.out.println("1111"+rs.getString(1));
+					System.out.println("1111"+rs.getString(2));
 				}*/
 				//处理结果集
 				return rsh.handle(rs);

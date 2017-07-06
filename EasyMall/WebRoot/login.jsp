@@ -38,7 +38,7 @@
 			<tr>
 				<td class="tdx">用户名：</td>
 				<td>
-				<input type="text" name="username" value="<%=URLDecoder.decode(username,"utf-8")%> "/>
+				<input type="text" name="username" value="<%=URLDecoder.decode(username,"utf-8")%>"/>
 				 <span
 					style="color:red">${requestScope.username_msg }</span>
 				</td>
@@ -46,8 +46,8 @@
 			<tr>
 				<td class="tdx">密&nbsp;&nbsp; 码：</td>
 				<td>
-				<input type="password" name="password" /> <span
-					style="color:red">${requestScope.password_msg }</span>
+				<input type="password" name="password" />
+				<span style="color:red">${requestScope.password_msg }</span>
 				</td>
 			</tr>
 			<tr>

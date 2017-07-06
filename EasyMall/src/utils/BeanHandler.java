@@ -9,9 +9,9 @@ import java.sql.SQLException;
 
 public class BeanHandler<T> implements ResultSetHandler<T> {
 	
-	private Class type;
+	private Class<T> type;
 	
-	public BeanHandler(Class clz){
+	public BeanHandler(Class<T> type){
 		this.type = type;
 	}
 	

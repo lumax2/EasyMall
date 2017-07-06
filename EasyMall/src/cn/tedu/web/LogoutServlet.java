@@ -1,7 +1,6 @@
 package cn.tedu.web;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;

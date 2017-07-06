@@ -35,8 +35,8 @@ public class LoginServlet extends HttpServlet {
 		//1、设置接收参数的编码格式utf-8
 		//req.setCharacterEncoding("utf-8");
 		//2、接收用户名和密码
-		String username = req.getParameter("username");
-		String password = req.getParameter("password");
+		String username = req.getParameter("username").trim();
+		String password = req.getParameter("password").trim();
 		
 		//3、非空验证
 		boolean isTrue=true;
@@ -64,7 +64,7 @@ public class LoginServlet extends HttpServlet {
 			//A3.调用业务层的方法
 			User user = userService.login(username,password);
 			//A4.创建User，添加login(..)方法
-			System.out.println("user"+user);
+			//System.out.println("user"+user);
 			//5判断用户是否存在
 			if(user!=null){
 				//7存在,将用户名保存到session中
