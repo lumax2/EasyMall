@@ -52,13 +52,14 @@ $(function()
 			//alert("flag1:"+flag);
 			flag = this.checkNull("password", "密码不能为空!js") && flag;
 			flag = this.checkNull("password2", "确认密码不能为空!js") && flag;
+			flag =	this.checkEmail("email", "邮箱格式不正确!js") && flag;
 			flag = this.checkNull("nickname", "昵称不能为空!js") && flag;
 			flag = this.checkNull("email", "邮箱不能为空!js") && flag;
 			flag = this.checkNull("valistr", "验证码不能为空!js") && flag;
 			//alert("flag1:"+flag);
 			flag = this.checkPassword("password", "两次密码不一致!js") && flag;
 			//alert("flag2:"+flag);
-			flag =	this.checkEmail("email", "邮箱格式不正确!js") && flag;
+			
 
 			return flag;
 		},

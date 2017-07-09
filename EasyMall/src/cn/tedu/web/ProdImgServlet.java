@@ -27,6 +27,7 @@ public class ProdImgServlet extends HttpServlet {
 	public void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
+		
 		super.doPost(req, resp);
 	}
 }

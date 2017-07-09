@@ -36,4 +36,12 @@ public class ProdServiceImpl implements ProdService {
 		return prodDao.findAllByKey(name,cate,min,max);
 	}
 
+	
+	
+	public Product findProdById(String id) {
+		
+		
+		return prodDao.findProdById(id);
+	}
+
 }

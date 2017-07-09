@@ -30,15 +30,18 @@
 		</div>
 	</div>
 	<div id="line2">
-		<input type="text" name="" /> <input type="button" value="搜 索" /> <span
-			id="goto"> <a id="goto_order" href="#">我的订单</a> <a
-			id="goto_cart" href="#">我的购物车</a> </span> <img id="erwm"
-			src="${pageContext.request.contextPath }/img/head/qr.jpg" />
+		<img id="logo" src="${app }/img/head/logo.jpg"/>
+		<input type="text" name="" /> <input type="button" value="搜 索" /> 
+		<span id="goto"> 
+			<a id="goto_order" href="#">我的订单</a> 
+			<a id="goto_cart" href="${app }/cart.jsp">我的购物车</a> 
+		</span>
+		 <img id="erwm" src="${app}/img/head/qr.jpg" />
 	</div>
 	<div id="line3">
 		<div id="content">
 			<ul>
-				<li><a href="#">首页</a>
+				<li><a href="${app }/index.jsp">首页</a>
 				</li>
 				<li><a href="${app }/ProdListServlet">全部商品</a>
 				</li>

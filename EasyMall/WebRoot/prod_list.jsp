@@ -24,12 +24,19 @@
 		<div id="prod_content">
 			<c:forEach items="${list }" var="prod">
 				<div id="prod_div">
+				<a href="${app }/ProdInfoServlet?id=${prod.id}">
 					<img src="${app }/ProdImgServlet?imgurl=${prod.imgurl }"></img>
-					<div id="prod_name_div">${prod.name }</div>
+				</a>
+					<div id="prod_name_div">
+						<a href="${app }/ProdInfoServlet?id=${prod.id}">
+						${prod.name }
+						</a>	
+					</div>
+				
 					<div id="prod_price_div">￥${prod.price }元</div>
 					<div>
 						<div id="gotocart_div">
-							<a href="#">加入购物车</a>
+							<a href="${app }/CartAddServlet?id=${prod.id}">加入购物车</a>
 						</div>
 						<div id="say_div">库存：${prod.pnum }</div>
 					</div>

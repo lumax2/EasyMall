@@ -35,4 +35,15 @@ public interface ProdDao {
 	public List<Product> findAllByKey(String name, String cate, Double min,
 			Double max);
 
+
+	/**
+	 * 根据商品id查询商品的详细信息
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Product findProdById(String id);
+	
+	
+
 }

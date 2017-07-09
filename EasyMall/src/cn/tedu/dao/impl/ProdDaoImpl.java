@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import utils.BeanHandler;
 import utils.BeanListHandler;
 import utils.JDBCUtils;
 
@@ -17,8 +18,7 @@ public class ProdDaoImpl implements ProdDao {
 		String sql = "select * from products";
 
 		try {
-			return JDBCUtils.query(sql, new BeanListHandler<Product>(
-					Product.class), null);
+			return JDBCUtils.query(sql, new BeanListHandler<Product>(Product.class));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -75,6 +75,18 @@ public class ProdDaoImpl implements ProdDao {
 		}
 
 		
+	}
+
+	public Product findProdById(String id) {
+		
+		String sql = "select * from products where id =?";
+		
+		try {
+			return JDBCUtils.query(sql, new BeanHandler<Product>(Product.class), id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 }

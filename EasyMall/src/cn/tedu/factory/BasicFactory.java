@@ -10,6 +10,7 @@ public class BasicFactory {
 	}
 	//T:UserDao
 	//Class<T>:UserDao.class
+	@SuppressWarnings("unchecked")
 	public  <T> T getInstance(Class<T> intfClz){
 		//UserDao.class->"UserDao"
 		//getName()->"cn.tedu.dao.UserDao"
@@ -19,7 +20,7 @@ public class BasicFactory {
 		//获取UserDao在config.properties文件中对应实现类的包名.类名
 		String className = PropUtils.getProperty(intfName);
 		try {
-			Class clz = Class.forName(className);
+			Class<?> clz = (Class<T>) Class.forName(className);
 			//clz创建对象
 			return (T)clz.newInstance();
 		} catch (Exception e) {

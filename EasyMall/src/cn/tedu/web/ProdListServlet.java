@@ -55,7 +55,7 @@ public class ProdListServlet extends HttpServlet {
 				}
 				//3
 				ProdService ps = BasicFactory.getFactory().getInstance(ProdService.class);
-				System.out.println("name"+name+";cate"+cate+";min:"+min+";max:"+max);
+				//System.out.println("name"+name+";cate"+cate+";min:"+min+";max:"+max);
 				//4 调用查询的方法
 				List<Product> list = ps.findAllByKey(name,cate,min,max);
 				

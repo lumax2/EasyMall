@@ -8,6 +8,7 @@
 <script src="${pageContext.request.contextPath }/js/jquery-1.4.2.js"></script>
 <script type="text/javascript" >
 	$(function(){
+	
 		var uname = "${cookie.remname.value}";
 		//alert(uname);
 		$("#username").val(deCode(uname));
