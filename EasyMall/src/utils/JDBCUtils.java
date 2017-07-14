@@ -85,6 +85,33 @@ public class JDBCUtils {
 		Connection conn = null;
 		PreparedStatement pstat = null;
 		try {
+			conn = TranManager.getConn();
+			pstat = conn.prepareStatement(sql);
+			// 为占位符赋值
+			if (params != null) {
+				for (int i = 0; i < params.length; i++) {
+					pstat.setObject(i + 1, params[i]);
+				}
+			}
+			return pstat.executeUpdate();
+		} catch (SQLException se) {
+			throw se;
+		} finally {
+			close(null, pstat, null);
+		}
+	}
+	/**
+	 * 添加事务的重载方法
+	 * @param conn
+	 * @param sql
+	 * @param params
+	 * @return
+	 * @throws SQLException
+	 */
+/*	public static int update(Connection conn,String sql, Object... params) throws SQLException {
+		
+		PreparedStatement pstat = null;
+		try {
 			conn = getConnection();
 			pstat = conn.prepareStatement(sql);
 			// 为占位符赋值
@@ -97,9 +124,9 @@ public class JDBCUtils {
 		} catch (SQLException se) {
 			throw se;
 		} finally {
-			close(conn, pstat, null);
+			close(null, pstat, null);
 		}
-	}
+	}*/
 
 	/**
 	 * 查询的方法，即可以查询一个对象，也可以查询List<T>
@@ -130,7 +157,7 @@ public class JDBCUtils {
 			PreparedStatement ps = null;
 			ResultSet rs = null;
 			try {
-				conn = getConnection();
+				conn = TranManager.getConn();
 				ps = conn.prepareStatement(sql);
 				if(params != null && params.length >0){
 					for (int i = 0; i < params.length; i++) {
@@ -150,7 +177,46 @@ public class JDBCUtils {
 				e.printStackTrace();
 				throw new RuntimeException(e);
 			}finally{
-				close(conn, ps, rs);
+				//不要关闭数据库连接
+				close(null, ps, rs);
 			}
 	}
+		/**
+		 * 
+		 * @param conn
+		 * @param sql
+		 * @param rsh
+		 * @param params
+		 * @return
+		 * @throws Exception
+		 *//*
+		public static <T> T query(Connection conn,String sql, ResultSetHandler<T> rsh, Object... params)
+				throws Exception {
+		
+			PreparedStatement ps = null;
+			ResultSet rs = null;
+			try {
+				conn = getConnection();
+				ps = conn.prepareStatement(sql);
+				if(params != null && params.length >0){
+					for (int i = 0; i < params.length; i++) {
+						ps.setObject(i+1, params[i]);
+					}
+				}
+				
+				rs = ps.executeQuery();
+				//System.out.println("RS:"+rs);
+				while(rs.next()){
+					System.out.println("username111"+rs.getString("username"));
+					System.out.println("1111"+rs.getString(2));
+				}
+				//处理结果集
+				return rsh.handle(rs);
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}finally{
+				close(null, ps, rs);
+			}
+	}*/
 }

@@ -112,11 +112,11 @@
 					<input name="allC" type="checkbox" value=""/> 
 					<span>全选</span>
 					<a id="del_a" href="#">删除选中的商品</a>
-					<span id="span_1">总价：￥${page.money }</span>
+					<span id="span_1">总价：￥${money }</span>
 					<span id="span_2"></span>
 				</div>
 				<div id="total_2">	
-					<a id="goto_order" href="${app }/order_add.jsp">去结算</a>
+					<a id="goto_order" href="${app }/OrderAddServlet">去结算</a>
 				</div>
 			</div>
 		</div>

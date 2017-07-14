@@ -2,6 +2,8 @@ package cn.tedu.service.impl;
 
 import java.util.List;
 
+import utils.TranManager;
+
 import cn.tedu.dao.OrderDao;
 import cn.tedu.dao.ProdDao;
 import cn.tedu.entity.Order;
@@ -18,6 +20,11 @@ public class OrderServiceImpl implements OrderService{
 	public void addOrder(Order order, List<OrderItem> oiList)
 			throws MsgException {
 		
+
+	
+		try {
+		TranManager.startTran();
+			
 		//1、向orders表添加一条记录
 		orderDao.addOrder(order);
 		//2、循环遍历
@@ -31,6 +38,24 @@ public class OrderServiceImpl implements OrderService{
 			prodDao.changePnum(prod.getId(), prod.getPnum()-oi.getBuynum());
 			orderDao.addOrderItem(oi);
 		}
+		TranManager.commitTran();
+		
+		} catch (MsgException e) {
+			e.printStackTrace();
+			
+			TranManager.rollbackTran();
+			
+		}finally{
+			TranManager.release();
+		}
+			
+				
+						
+				
+					
+				
+			
 	}
+	
 
 }
